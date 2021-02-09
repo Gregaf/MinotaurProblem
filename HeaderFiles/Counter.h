@@ -1,7 +1,10 @@
-#include "Guest.h"
+#ifndef COUNTER_H
+#define COUNTER_H
 
+#include "GuestHandler.h"
 
-class Counter : public Guest
+// Not sure but will need a reference to the GuestHandler
+class Counter : public GuestHandler
 {
     public:
         Counter() {};
@@ -10,3 +13,5 @@ class Counter : public Guest
 
 
 };
+
+#endif
