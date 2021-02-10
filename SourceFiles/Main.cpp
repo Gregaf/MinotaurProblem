@@ -9,10 +9,9 @@ using std::cout;
 
 int main()
 {
-    Minotaur* minotaurMaster = new Minotaur();   
-    GuestHandler* guestHandler = new GuestHandler();
-
-    system("pause");
+    GuestHandler handler(5);
+    
+    
 
     return 0;
 }

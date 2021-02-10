@@ -7,7 +7,7 @@
 class Counter : public GuestHandler
 {
     public:
-        Counter() {};
+        
 
     private:
 

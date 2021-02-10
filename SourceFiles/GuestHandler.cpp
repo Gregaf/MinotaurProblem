@@ -1,16 +1,27 @@
 #include "../HeaderFiles/GuestHandler.h"
 
-std::mutex mtx;
 
-void GuestHandler::execute()
+void GuestHandler::start(int numberOfGuests)
 {
-    int cupcakesEaten = 0;
+    
 
-    // Some sort of loop to ensure that none stop until success condition.
+    for(int i = 0; i < numberOfGuests; i++)
+    {
+        mGuests.emplace_back(std::thread(&GuestHandler::test, this));
+        
+    }
 
 }
 
-void GuestHandler::start()
+void GuestHandler::test()
 {
-    threadObj = thread(&GuestHandler::execute, this);
+    {
+        std::lock_guard<std::mutex> lock {mEventMutex};
+        std::cout << "This is thread " << std::this_thread::get_id() << std::endl;
+    }
+}
+
+void GuestHandler::stop()
+{
+
 }
