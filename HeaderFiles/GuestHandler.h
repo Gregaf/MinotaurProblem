@@ -13,6 +13,8 @@
 class GuestHandler
 {   
     private:
+        Minotaur* mMinotaur;
+
         std::condition_variable mEvent;
 
         std::mutex mEventMutex;
@@ -21,13 +23,16 @@ class GuestHandler
         std::vector<std::thread> mGuests;    
         void start(int numberOfGuests);
         void stop();
-        void test();
-        int mNumberOfGuests = 3;
+        void regularGuest();
+        void counterGuest();
+        
+        int mNumberOfGuests;
         
     public:
-        GuestHandler(int n)
+        GuestHandler(int n, Minotaur* mino)
         {
             mNumberOfGuests = n;
+            this->mMinotaur = mino;
             start(n);
         }
 

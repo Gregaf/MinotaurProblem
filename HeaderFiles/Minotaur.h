@@ -1,24 +1,27 @@
 #ifndef MINOTAUR_H
 #define MINOTAUR_H
 
+#include <thread>
+#include <iostream>
 #include <unordered_set>
 #include <stdlib.h>
-#include "GuestHandler.h"
 
 class Minotaur
 {
     public:
-        void InviteGuest();
         void RequestCupcake();
         void ConsumeCupcake();
-        bool plateEmpty();
         void beginParty();
+        bool plateEmpty();
+        void EnterLabyrinth(std::thread::id ID);
+        bool verifySuccess(int n);
+        bool gameRunning();
 
     private:
-        const int maxGuestsInside = 1;
+        bool isGameRunning = false;
         bool cupcakePresent = true;
         // The int will be represented by the thread ID.
-        std::unordered_set<int> trackedGuests;
+        std::unordered_set<std::thread::id> trackedGuests;
         
 
 };
