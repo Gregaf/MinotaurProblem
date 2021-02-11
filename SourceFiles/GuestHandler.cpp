@@ -13,39 +13,34 @@ void GuestHandler::start(int numberOfGuests)
 
 }
 
-// The regular guest can eat one cupcake, and does not request a new one if the plate is empty
+// The regular guest can only request one cupcake, and leaves otherwise
 void GuestHandler::regularGuest()
 {
-    int cupcakesEaten = 0;
+    int replaced = 0;
 
     while(mMinotaur->gameRunning())
     {
         // Scope of the lock...
         {
             std::lock_guard<std::mutex> lock{mEventMutex};
+
+            // Adds this thread to the list of tracked threads to ensure proper success declaration
             mMinotaur->EnterLabyrinth(std::this_thread::get_id());
-            //std::cout << "Guest " << std::this_thread::get_id() << " enters the labyrinth" << std::endl;
 
-            if (cupcakesEaten <= 0 && !mMinotaur->plateEmpty())
+            // Guests only replace the cupcake onetime, and never eat any.
+            if (replaced <= 0 && mMinotaur->plateEmpty())
             {
-                cupcakesEaten++;
-                mMinotaur->ConsumeCupcake();
-            }
-
-            if(mMinotaur->plateEmpty())
-            {
-                // Do nothing
-            }      
+                replaced++;
+                mMinotaur->RequestCupcake();
+            }     
         }
     }
 }
 
-// The counter guest is responsible for counting the number of times the plate is empty.
-// The strategy employs allowing only eating one cupcake.
-// And the counter is the only one who will request a cupcake
+// The counter guest is responsible for counting the cupcakes he eats.
+// The strategy employs allowing only eating the cupcakes
 void GuestHandler::counterGuest()
 {
-    int counter = 0;
     int cupcakesEaten = 0;
 
     while(mMinotaur->gameRunning())
@@ -53,23 +48,19 @@ void GuestHandler::counterGuest()
         // Scope of the lock...
         {
             std::lock_guard<std::mutex> lock{mEventMutex};
-            mMinotaur->EnterLabyrinth(std::this_thread::get_id());
-            //std::cout << "CGuest " << std::this_thread::get_id() << " enters the labyrinth" << std::endl;
 
-            if (cupcakesEaten <= 0 && !mMinotaur->plateEmpty())
+            // Adds this thread to the list of tracked threads to ensure proper success declaration
+            mMinotaur->EnterLabyrinth(std::this_thread::get_id());
+
+            // If the plate is not empty, then eat the cupcake and track the count of cupcakes eaten.
+            if (!mMinotaur->plateEmpty())
             {
                 cupcakesEaten++;
                 mMinotaur->ConsumeCupcake();
             }
 
-            if(mMinotaur->plateEmpty())
-            {
-                counter++;
-                mMinotaur->RequestCupcake();
-            }
-
-
-            if(counter == mNumberOfGuests)
+            // If number of cupcakes eaten equals the amount of guests, then everyone has entered. Declare success.
+            if(cupcakesEaten == (mNumberOfGuests))
             {
                bool correct = mMinotaur->verifySuccess(mNumberOfGuests);
 

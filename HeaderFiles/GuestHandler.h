@@ -2,7 +2,7 @@
 #define GUESTHANDLER_H
 
 #include <thread>
-#include <condition_variable>
+#include <mutex>
 #include <iostream>
 #include <vector>
 #include "Minotaur.h"
@@ -13,21 +13,16 @@
 class GuestHandler
 {   
     private:
-        Minotaur* mMinotaur;
-
-        std::condition_variable mEvent;
-
-        std::mutex mEventMutex;
+        int mNumberOfGuests;
         bool mStopping = false;
-
+        Minotaur* mMinotaur;
+        std::mutex mEventMutex;
         std::vector<std::thread> mGuests;    
         void start(int numberOfGuests);
         void stop();
         void regularGuest();
         void counterGuest();
-        
-        int mNumberOfGuests;
-        
+                
     public:
         GuestHandler(int n, Minotaur* mino)
         {

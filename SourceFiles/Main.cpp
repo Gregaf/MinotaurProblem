@@ -5,11 +5,17 @@
 #include <vector>
 
 using std::cout;
+using std::cin;
 
 int main()
 {
     Minotaur minotaur;
-    GuestHandler handler(5, &minotaur);
+
+    int numberOfGuests = 0;
+    cout << "Minotaur Master: How many guests will participate? ";
+    cin >> numberOfGuests;
+    
+    GuestHandler handler(numberOfGuests, &minotaur);
     
     
 

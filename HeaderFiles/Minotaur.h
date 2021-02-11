@@ -4,7 +4,7 @@
 #include <thread>
 #include <iostream>
 #include <unordered_set>
-#include <stdlib.h>
+
 
 class Minotaur
 {
