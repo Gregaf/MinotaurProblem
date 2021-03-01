@@ -39,6 +39,13 @@ void Minotaur::EnterLabyrinth(std::thread::id ID)
 {
     if(trackedGuests.find(ID) == trackedGuests.end())
     {
+        std::lock_guard<std::mutex> lock{mEventMutex};
         trackedGuests.insert(ID);
     }
+}
+
+void Minotaur::EnterShowcase(bool* ready)
+{
+    *ready = false;
+    // Thread enters room.
 }

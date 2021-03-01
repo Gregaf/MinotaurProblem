@@ -2,9 +2,12 @@
 #define GUESTHANDLER_H
 
 #include <thread>
+#include <chrono>
+#include <condition_variable>
 #include <mutex>
 #include <iostream>
 #include <vector>
+#include <queue>
 #include "Minotaur.h"
 
 
@@ -14,21 +17,25 @@ class GuestHandler
 {   
     private:
         int mNumberOfGuests;
-        bool mStopping = false;
+        bool mReady = true;
         Minotaur* mMinotaur;
+        std::condition_variable mEvent;
         std::mutex mEventMutex;
-        std::vector<std::thread> mGuests;    
-        void start(int numberOfGuests);
-        void stop();
+        std::vector<std::thread> mGuests;
+        std::queue<std::thread> mLine;
         void regularGuest();
         void counterGuest();
-                
+        void showcaseGuest();
+        void viewShowcase();
+        void stopViewing();
+        
+
     public:
         GuestHandler(int n, Minotaur* mino)
         {
             mNumberOfGuests = n;
             this->mMinotaur = mino;
-            start(n);
+            
         }
 
         ~GuestHandler() 
@@ -40,7 +47,12 @@ class GuestHandler
                 else
                     std::cout << "Can't join." << std::endl;
             }
+            
         }
+
+        void readyLabyrinth();
+        void readyShowcase();
+
 
 };
 

@@ -1,0 +1,46 @@
+\documentclass[12pt]{article}
+
+
+\begin{document}
+\title{Programming Assignment 2}
+\author{Gregory Freitas}
+\date{today}
+\maketitle
+
+\section{Cupcake Problem}
+\indent I decided to implement my program where there can be N number of guests supplied by the input of the user.
+I did successfully execute the program where success was declared properly with each guest being represented by a thread. 
+The strategy employed in this approach was to have one guest declared the leader essentially. The leader would be the one to eat the cupcakes. 
+While the other guests were responsible for replacing an empty plate only once each, deciding to leave the labyrinth if they have already replaced it. 
+Since the leader would count how many cupcakes hes eaten until he has eaten $(n-1)$ cupcakes excluding the one he eats. 
+Once reaching that count he can declare victory successfuly. 
+
+\section{Showcase Problem}
+    \begin{enumerate}
+        \item First Approach
+        
+        The best thing about this approach would be purely for the simplicity of it. It seems as though it is like the idea of
+        letting the threads roam free checking whether a lock on the room is free constantly, thus leading to lots of contention
+        as the threads would all be cosntantly checking the lock, till they can try and enter. This also doesn't have a fair load
+        as the order of the threads is random and the same thread could potentially continue to go back into the room. Thus I did not
+        opt for this approach.
+        \item Second Approach
+        
+        This is the approach that I decided to go with, with the idea of implementing it where I will have a condition variable that
+        all the threads will depend on, so that whenever one thread enters the room they view the vase, then reset the variable to
+        available, and notify all threads that are waiting allowing them a change to go into the room.
+        \item Third Approach
+        
+        I believe the third approach is the best option as it reduces contention between the threads since they simply wait
+        until it is their turn. And are notified immedietly upon the room being vacated. This allows for a more balanced load
+        too since each thread will be guarenteed to go in and one thread will not continuously go in before others get a chance.
+        Although I believe it is difficult to implement this approach.
+    \end{enumerate}
+
+\section{Conclusion}
+Overall I believe it was a great exercise to show off the different appraoches and how the threads interact. I used this
+assignment as a way for me to implement threads on a seperate object, to abstract them away from Main. I was glad that it
+was successful this time unlike the last assignment where I had to scrap that idea.
+
+\end{document}
+

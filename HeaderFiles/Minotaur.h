@@ -4,16 +4,18 @@
 #include <thread>
 #include <iostream>
 #include <unordered_set>
-
+#include <mutex>
 
 class Minotaur
 {
     public:
+        std::mutex mEventMutex;
         void RequestCupcake();
         void ConsumeCupcake();
         void beginParty();
         bool plateEmpty();
         void EnterLabyrinth(std::thread::id ID);
+        void EnterShowcase(bool* ready);
         bool verifySuccess(int n);
         bool gameRunning();
 
