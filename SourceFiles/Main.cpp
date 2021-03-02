@@ -18,11 +18,23 @@ int main()
     cin >> numberOfGuests;
 
     GuestHandler handler(numberOfGuests, &minotaur);
-    handler.readyShowcase();
-    // GuestHandler handler(numberOfGuests, &minotaur);
-    // handler.readyLabyrinth();
+    handler.readyLabyrinth();
     
-    
+    while (minotaur.gameRunning())
+    {
+        // Loop till game finishes.
+    }
+
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+
+    Minotaur minotaurTwo;
+    GuestHandler handlerTwo(numberOfGuests, &minotaurTwo);
+    handlerTwo.readyShowcase();
+
+
+    // I did not write an exit condition as one was not specified with problem 2.
+    // GuestHandler handlerTwo(numberOfGuests, &minotaur);
+    // handler.readyShowcase();
 
     return 0;
 }

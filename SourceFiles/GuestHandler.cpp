@@ -25,7 +25,7 @@ void GuestHandler::readyShowcase()
     for (int i = 0; i < (mNumberOfGuests); i++)
     {
         // Need to figure out a way to store same thread in my vector and my queue...
-        mLine.emplace(std::thread(&GuestHandler::showcaseGuest, this));
+        mGuests.emplace_back(std::thread(&GuestHandler::showcaseGuest, this));
     }
 
     // Loop again and put all the threads in the queue. 
@@ -46,7 +46,7 @@ void GuestHandler::showcaseGuest()
 void GuestHandler::viewShowcase()
 {
     mReady = false;
-    // Print some stuff....
+    // Tested waiting a second per entering.
     //std::this_thread::sleep_for(std::chrono::seconds(1));
     std::cout << "I guest # " << std::this_thread::get_id() << " took my look!!" << std::endl;
 

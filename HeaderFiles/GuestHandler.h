@@ -22,7 +22,6 @@ class GuestHandler
         std::condition_variable mEvent;
         std::mutex mEventMutex;
         std::vector<std::thread> mGuests;
-        std::queue<std::thread> mLine;
         void regularGuest();
         void counterGuest();
         void showcaseGuest();
